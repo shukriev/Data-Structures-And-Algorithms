@@ -21,6 +21,11 @@ public class Frame extends java.awt.Frame {
 		f = new JFrame("Main");
 		f.setLayout(new GridLayout(FRAME_ROW_COUNT, 1));
 
+		jt = new JTable();
+		jt.setModel(fillTableDataModel(processTable));
+		jt.setBounds(30, 40, 200, 300);
+		f.add(new JScrollPane(jt));
+		
 		Button dispatchButton = new Button("Dispatch");
 		dispatchButton.addActionListener(new ActionListener() {
 			@Override
@@ -36,10 +41,19 @@ public class Frame extends java.awt.Frame {
 			}
 		});
 
-		Button showButton = new Button("Show");
-
 		JPanel menuPanel = new JPanel();
 		menuPanel.add(dispatchButton);
+		
+		Button showButton = new Button("Show");
+		showButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jt.setModel(fillTableDataModel(processTable));
+
+			}
+		});
+		
 		menuPanel.add(showButton);
 
 		f.add(menuPanel);
@@ -48,9 +62,6 @@ public class Frame extends java.awt.Frame {
 		TextField arrivalTimeBox = new TextField();
 		Button submitProcessButton = new Button("Load Process");
 
-		jt = new JTable(fillTableDataModel(processTable));
-		jt.setBounds(30, 40, 200, 300);
-		f.add(new JScrollPane(jt));
 
 		submitProcessButton.addActionListener(new ActionListener() {
 
@@ -62,9 +73,6 @@ public class Frame extends java.awt.Frame {
 
 					processTable.load(processTable.returnNextId(), burstTIme, arrivalTime);
 					processTable.notifyData();
-//					processTable.process();
-					
-					fillTableDataModel(processTable);
 					
 					jt.setModel(fillTableDataModel(processTable));
 				}

@@ -1,14 +1,15 @@
 public class Edge implements Comparable<Edge> {
-
+	private RelationType type;
     private Process process;
     private Resource resource;
     private int weight;
 
-    public Edge(Process process, Resource resource){
-        this(process, resource, 1);
+    public Edge(RelationType type, Process process, Resource resource){
+        this(type, process, resource, 1);
     }
     
-    public Edge(Process process, Resource resource, int weight){
+    public Edge(RelationType type,  Process process, Resource resource, int weight){
+    	this.type = type;
         this.process = process;
         this.resource = resource;
         this.weight = weight;
@@ -64,5 +65,13 @@ public class Edge implements Comparable<Edge> {
         Edge e = (Edge)other;
         
         return e.process.equals(this.process) && e.resource.equals(this.resource);
-    }   
+    }
+
+	public RelationType getType() {
+		return type;
+	}
+
+	public void setType(RelationType type) {
+		this.type = type;
+	}   
 }

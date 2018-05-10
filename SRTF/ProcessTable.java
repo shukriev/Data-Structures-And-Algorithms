@@ -10,7 +10,6 @@ public class ProcessTable {
 	private List<Integer> waitingTime;
 	private int remainingTime[];
 	private Frame mainFrame;
-	private boolean fireNewElement = false;
 	
 	// Load new process
 	public void load(int id, int burstTime, int arrivalTime) {
@@ -104,6 +103,14 @@ public class ProcessTable {
 
 		while (true) {
 			if(complete == processes.size()) {
+//				System.out.println("Is Alive: " + Thread.currentThread().isAlive());
+//				System.out.println("State: " + Thread.currentThread().getState());
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				continue;
 			}
 
@@ -182,7 +189,6 @@ public class ProcessTable {
 
 		}
 		
-		fireNewElement = true;
 	}
 	
 	public int returnNextId() {

@@ -1,13 +1,23 @@
-
 public class Application {
 	public static void main(String[] args) {
-		Resource resource1 = new Resource("CPU Core 1");
-		Resource resource2 = new Resource("CPU Core 2");
-		Resource resource3 = new Resource("CPU Core 3");
-		Resource resource4 = new Resource("CPU Core 4");
+		RAG rag = new RAG();
 		
-		Process process1 = new Process("Java");
-		process1.addNeighbor(new Edge(process1, resource1));
+		//Create process Java JRE
+		Process process1 = rag.createProcess("Java JRE");
+		rag.processAskResource(process1, "1");
 		
+		//Create process Slack
+		Process process2 = rag.createProcess("Slack");
+		rag.processAskResource(process2, "2");
+		
+		//Meanwhile process1 needs Resource 2
+		rag.processAskResource(process1, "2");
+		
+		//Create process Skype
+		Process process3 = rag.createProcess("Skype");
+		rag.processAskResource(process3, "1");
+		
+		rag.findDeadlock();
 	}
+
 }

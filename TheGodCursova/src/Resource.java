@@ -1,29 +1,29 @@
 public class Resource {
-	private Edge edge;
+	private Edge relation;
 	private String label;
 	
 	public Resource(String label) {
 		this.label = label;
 	}
 
-	public void addEdge(Edge edge) {
-		if (edgeEquals(edge)) {
+	public void addRelation(Edge relation) {
+		if (edgeEquals(relation)) {
 			return;
 		}
 
-		this.edge = edge;
+		this.relation = relation;
 	}
 
 	public boolean edgeEquals(Edge other) {
-		return this.edge == other;
+		return this.relation == other;
 	}
 
-	public Edge getEdge() {
-		return this.edge;
+	public Edge getRelation() {
+		return this.relation;
 	}
 
-	public Edge removeEdge() {
-		return this.edge = null;
+	public Edge removeRelation() {
+		return this.relation = null;
 	}
 
 	public String getLabel() {
