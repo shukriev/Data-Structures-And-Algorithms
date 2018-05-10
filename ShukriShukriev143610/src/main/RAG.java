@@ -1,3 +1,4 @@
+package main;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,10 @@ public class RAG {
 		resourceList.add(new Resource("1"));
 		resourceList.add(new Resource("2"));
 		resourceList.add(new Resource("3"));
-		resourceList.add(new Resource("3"));
+		resourceList.add(new Resource("4"));
+		resourceList.add(new Resource("5"));
+		resourceList.add(new Resource("6"));
+
 	}
 
 	// Process ask for resource with label.. So we can create concrete deadlock
@@ -33,6 +37,8 @@ public class RAG {
 						} else {
 							// If there is existing resource but it's not available then create relation ask
 							Edge processAskResource = new Edge(RelationType.ASK, process, r);
+							
+							//TODO later add check if process already own's same resource
 							process.addRelation(processAskResource);
 							System.out.println(String.format("Relation process=%s ASK resource=%s has been created!",
 									process.getLabel(), r.getLabel()));
@@ -87,20 +93,62 @@ public class RAG {
 		return process;
 	}
 
-	public void findDeadlock() {
+	public List<Edge> locateDeadlock() {
 		// Iterate list of process
 		// Find if process have resource with allocated resource
 		// and in same time process have pending resource
 		// if yes, check if process who is using pending resource have also pending
 		// resource who is owned by first process;
-
+		List<Edge> deadlockedEdges = new ArrayList<>();
+		
 		for (Process process : processList) {
 			List<Edge> pendingResourceRelations = process.getPendingResourceRelations();
 			for (Edge edge : pendingResourceRelations) {
+				deadlockedEdges.add(edge);
+				
 				System.out.println(String.format(
 						"Process with id=%s is locked because of resource with id=%s owned by=%s", process.getLabel(),
 						edge.getResource().getLabel(), edge.getResource().getRelation().getProcess().getLabel()));
 			}
 		}
+		
+		return deadlockedEdges;
+	}
+	
+	public void freeResource(Process process, Resource resource) {
+		Edge processHasResource = process.getRelations().stream()
+				.filter(pr -> (pr.getProcess().getLabel() == process.getLabel()
+						&& (pr.getResource().getLabel() == resource.getLabel())))
+				.findFirst().orElse(null);
+		
+		if (processHasResource != null) {
+			process.removeRelation(processHasResource);
+			resource.removeRelation();
+
+			System.out.println(String.format("Process=%s: Resource=%s has been released!", process.getLabel(),
+					resource.getLabel()));
+		} else {
+			System.out.println(String.format("Process %s does not use Resource=%s", process.getLabel(), resource.getLabel()));
+		}
+	}
+	
+	public Resource findResourceByLabel(String label) {
+		return this.resourceList.stream().filter(r -> r.getLabel() == label).findFirst().orElse(null);
+	}
+
+	public List<Resource> getResources() {
+		return this.resourceList;
+	}
+	
+	public List<Process> getProcess() {
+		return this.processList;
+	}
+	
+	public Process getProcess(String id) {
+		return this.processList.stream().filter(p -> p.getLabel().equals(id)).findFirst().orElse(null);
+	}
+	
+	public Resource getResource(String id) {
+		return this.resourceList.stream().filter(p -> p.getLabel().equals(id)).findFirst().orElse(null);
 	}
 }

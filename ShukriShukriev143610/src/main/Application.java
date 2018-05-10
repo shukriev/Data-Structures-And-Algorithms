@@ -1,3 +1,7 @@
+package main;
+
+import ui.MainFrame;
+
 public class Application {
 	public static void main(String[] args) {
 		RAG rag = new RAG();
@@ -17,7 +21,8 @@ public class Application {
 		Process process3 = rag.createProcess("Skype");
 		rag.processAskResource(process3, "1");
 		
-		rag.findDeadlock();
+		
+		MainFrame frame = new MainFrame(rag);
 	}
 
 }

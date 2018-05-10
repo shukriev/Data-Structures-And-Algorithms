@@ -1,3 +1,4 @@
+package main;
 public class Resource {
 	private Edge relation;
 	private String label;

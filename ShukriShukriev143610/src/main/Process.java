@@ -1,3 +1,4 @@
+package main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class Process {
 		this.relations.add(edge);
 	}
 
-	public boolean containsNeighbor(Edge other) {
+	public boolean containsRelation(Edge other) {
 		return this.relations.contains(other);
 	}
 
@@ -31,7 +32,7 @@ public class Process {
 		return this.relations.remove(index);
 	}
 
-	public void removeNeighbor(Edge e) {
+	public void removeRelation(Edge e) {
 		this.relations.remove(e);
 	}
 
@@ -60,8 +61,25 @@ public class Process {
 		return this.label.equals(v.label);
 	}
 
-	public ArrayList<Edge> getRelations() {
+	public List<Edge> getRelations() {
 		return new ArrayList<Edge>(this.relations);
+	}
+	
+	public String getResourceString() {
+		List<String> resourceNames = new ArrayList<>();
+		for (Resource rn : getResources()) {
+			resourceNames.add(rn.getLabel());
+		}
+		return String.join(", ", resourceNames);
+	}
+	public List<Resource> getResources() {
+		List<Resource> resourceList = new ArrayList<>();
+		
+		for (Edge edge : relations) {
+			resourceList.add(edge.getResource());
+		}
+		
+		return resourceList;
 	}
 	
 	public List<Edge> getPendingResourceRelations() {

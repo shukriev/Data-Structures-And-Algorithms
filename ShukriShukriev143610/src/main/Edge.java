@@ -1,3 +1,4 @@
+package main;
 public class Edge implements Comparable<Edge> {
 	private RelationType type;
     private Process process;
@@ -14,14 +15,6 @@ public class Edge implements Comparable<Edge> {
         this.resource = resource;
         this.weight = weight;
     }
-    
-//    public Process getResource(Process current){
-//        if(!(current.equals(one) || current.equals(two))){
-//            return null;
-//        }
-//        
-//        return (current.equals(one)) ? two : one;
-//    }
     
     public Process getProcess(){
         return this.process;
